@@ -1,0 +1,812 @@
+/* ============================================================
+   12A1 — BRUTALIST REDESIGN
+   "Hồ sơ dự án / bảng tin lớp học":
+   giấy trắng, viền xanh than, đổ bóng cứng, chữ Anton khổng lồ.
+   (giữ lại .option/.screen cho trivia.html)
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Mono:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap');
+
+:root {
+    --ink:      #263746;
+    --ink-soft: #52616B;
+    --navy:     #263746;
+    --accent:   #0E8A3E;   /* xanh — màu của WHY NOT NOW */
+    --accent-hi:#0C7434;
+    --grass:    #0E8A3E;
+    --sun:      #FFD500;   /* bút dạ vàng */
+    --sky:      #2B5BFF;
+    --bad:      #E03131;
+    --bad-bg:   #FDECEC;
+    --ok:       #0E8A3E;
+    --ok-bg:    #E9F7EE;
+    --paper:    #FFFFFF;
+    --paper-2:  #F4F3EF;
+    --rule:     #263746;
+
+    --shadow:    6px 6px 0 var(--ink);
+    --shadow-sm: 4px 4px 0 var(--ink);
+    --shadow-lg: 10px 10px 0 var(--ink);
+    --ease: cubic-bezier(.22, .61, .36, 1);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+    margin: 0;
+    font-family: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.55;
+}
+
+h1, h2, h3 {
+    line-height: 1.35;
+    letter-spacing: .05em;
+}
+
+.font-display { font-family: 'Anton', 'Arial Black', sans-serif; font-weight: 400; }
+.mono         { font-family: 'IBM Plex Mono', ui-monospace, monospace; }
+
+.wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+img { max-width: 100%; }
+
+a:focus-visible, button:focus-visible {
+    outline: 3px solid var(--sky);
+    outline-offset: 2px;
+}
+
+::selection { background: var(--sun); color: var(--ink); }
+
+/* ---------- Small meta type ---------- */
+.tag {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+.tag-sun  { background: var(--sun);   border: 2px solid var(--ink); padding: .25rem .6rem; }
+.tag-grass{ background: var(--grass); border: 2px solid var(--ink); padding: .25rem .6rem; color: #fff; }
+.tag-sky  { background: var(--sky);   border: 2px solid var(--ink); padding: .25rem .6rem; color: #fff; }
+.tag-plain{ color: var(--ink-soft); }
+
+/* Sticker — nhãn dán xoay nhẹ */
+.sticker {
+    display: inline-block;
+    background: var(--sun);
+    border: 3px solid var(--ink);
+    box-shadow: var(--shadow-sm);
+    padding: .45rem 1rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .78rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    transform: rotate(-2deg);
+}
+
+.stamp {
+    display: inline-block;
+    border: 3px solid var(--bad);
+    color: var(--bad);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    padding: .3rem .7rem;
+    transform: rotate(2.5deg);
+}
+
+/* ---------- Ticker marquee ---------- */
+.ticker {
+    background: var(--grass);
+    border-bottom: 3px solid var(--ink);
+    overflow: hidden;
+}
+.ticker-track {
+    display: flex;
+    width: max-content;
+    white-space: nowrap;
+    animation: ticker 30s linear infinite;
+}
+.ticker-track span {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .78rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: #fff;
+    padding: .55rem 1.25rem;
+}
+.ticker-track span b { color: var(--sun); font-weight: 700; }
+@keyframes ticker { to { transform: translateX(-50%); } }
+
+/* ---------- Navbar ---------- */
+#navbar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--paper);
+    border-bottom: 3px solid var(--ink);
+}
+.nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    min-height: 72px;
+}
+.brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'Anton', 'Arial Black', sans-serif;
+    font-size: 1.9rem;
+    letter-spacing: .01em;
+    color: var(--ink);
+    text-decoration: none;
+    line-height: 1;
+}
+.brand b { color: var(--grass); font-weight: 400; }
+.brand-logo {
+    flex: none;
+    width: 46px;
+    height: 46px;
+    object-fit: cover;
+    border: 3px solid var(--ink);
+    box-shadow: var(--shadow-sm);
+    background: #fff;
+}
+.nav-links { display: flex; gap: 28px; }
+.nav-link {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .78rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 3px solid transparent;
+    padding: .2rem 0;
+}
+.nav-link:hover { border-bottom-color: var(--grass); }
+
+/* ---------- Buttons ---------- */
+.btn {
+    display: inline-block;
+    border: 3px solid var(--ink);
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .82rem;
+    font-weight: 700;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    text-decoration: none;
+    text-align: center;
+    padding: .8rem 1.5rem;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    transition: transform .12s var(--ease), box-shadow .12s var(--ease);
+}
+.btn:hover  { transform: translate(3px, 3px); box-shadow: 2px 2px 0 var(--ink); }
+.btn:active { transform: translate(6px, 6px); box-shadow: 0 0 0 var(--ink); }
+.btn[disabled] { opacity: .45; cursor: not-allowed; }
+
+.btn-ink   { background: var(--ink);   color: #fff; }
+.btn-grass { background: var(--grass); color: #fff; }
+.btn-sun   { background: var(--sun); }
+
+/* ---------- Structure: sections & rules ---------- */
+.section { padding: 88px 0; border-bottom: 3px solid var(--ink); }
+.section.tight { padding: 64px 0; }
+
+.sec-head { margin-bottom: 48px; }
+.sec-title {
+    font-family: 'Anton', 'Arial Black', sans-serif;
+    font-size: clamp(2.6rem, 6vw, 4.5rem);
+    line-height: 1.3;
+    letter-spacing: .05em;
+    margin: 0;
+    text-transform: uppercase;
+}
+.sec-title .dot { color: var(--grass); }
+.sec-sub {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .85rem;
+    color: var(--ink-soft);
+    margin-top: 14px;
+}
+.lead {
+    font-size: 1.15rem;
+    line-height: 1.65;
+    max-width: 42rem;
+}
+
+/* ---------- Hero (trang chính) ---------- */
+.hero { padding: 72px 0 80px; border-bottom: 3px solid var(--ink); }
+.mega {
+    font-family: 'Anton', 'Arial Black', sans-serif;
+    font-size: clamp(4.5rem, 15vw, 14rem);
+    line-height: 1.2;
+    letter-spacing: .05em;
+    margin: 0;
+    text-transform: uppercase;
+}
+.mega .dot { color: var(--grass); }
+
+.hero-photo { margin-top: 56px; }
+.hero-photo > .sticker { margin-bottom: 16px; }
+.frame {
+    border: 3px solid var(--ink);
+    box-shadow: var(--shadow-lg);
+    background: var(--paper-2);
+}
+.frame img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+/* ---------- Bento hoạt động — lưới sắt, không khoảng hở ---------- */
+.bento {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 3px;
+    background: var(--ink);
+    border: 3px solid var(--ink);
+}
+.act {
+    display: flex;
+    flex-direction: column;
+    background: var(--paper);
+    text-decoration: none;
+    color: var(--ink);
+}
+.act.w7 { grid-column: span 7; }
+.act.w5 { grid-column: span 5; }
+.act-img {
+    position: relative;
+    height: clamp(200px, 26vw, 300px);
+    border-bottom: 3px solid var(--ink);
+    overflow: hidden;
+}
+.act-img img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .4s var(--ease);
+}
+.act:hover .act-img img { transform: scale(1.04); }
+.act-cap {
+    padding: 16px 20px 20px;
+}
+.act-cap h3 {
+    font-family: 'Anton', 'Arial Black', sans-serif;
+    font-size: 1.35rem;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    margin: 10px 0 0;
+}
+.act-cap .go {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--grass);
+}
+.act:hover .go { text-decoration: underline; text-underline-offset: 3px; }
+
+/* ---------- Dải số liệu (stats) ---------- */
+.stats-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 3px;
+    background: var(--ink);
+    border: 3px solid var(--ink);
+}
+.stat { background: var(--grass); color: var(--ink); padding: 24px 20px; }
+.stat.alt { background: var(--sun); }
+.stat b {
+    display: block;
+    font-family: 'Anton', 'Arial Black', sans-serif;
+    font-size: clamp(1.9rem, 4vw, 3rem);
+    line-height: 1;
+}
+.stat span {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    display: block;
+    margin-top: 8px;
+}
+
+/* ---------- Thành tích — nền đen, danh sách dạng bảng ---------- */
+.sec-dark { background: var(--ink); color: #fff; }
+.sec-dark .sec-sub { color: rgba(255, 255, 255, .55); }
+.ach {
+    display: grid;
+    grid-template-columns: 96px 1fr;
+    gap: 28px;
+    padding: 36px 0;
+    border-top: 1px solid rgba(255, 255, 255, .3);
+}
+.ach:first-of-type { border-top: 0; padding-top: 0; }
+.ach-no {
+    font-family: 'Anton', 'Arial Black', sans-serif;
+    font-size: 3.2rem;
+    line-height: 1;
+    color: var(--sun);
+}
+.ach h3 {
+    font-family: 'Anton', 'Arial Black', sans-serif;
+    font-size: clamp(1.4rem, 2.6vw, 2rem);
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    margin: 0;
+}
+.ach .tag { color: var(--sun); margin-top: 8px; }
+.ach p { color: rgba(255, 255, 255, .65); max-width: 46rem; margin: 12px 0 0; }
+
+/* ---------- Giáo viên chủ nhiệm ---------- */
+.t-card {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    border: 3px solid var(--ink);
+    box-shadow: var(--shadow-lg);
+    background: var(--paper);
+}
+.t-photo {
+    position: relative;
+    background: var(--sun);
+    border-right: 3px solid var(--ink);
+    min-height: 300px;
+}
+.t-photo::after {
+    content: "H";
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    font-family: 'Anton', 'Arial Black', sans-serif;
+    font-size: 7rem;
+    color: var(--ink);
+}
+.t-photo img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+}
+.t-body { padding: 36px 40px; }
+.t-body h2 {
+    font-family: 'Anton', 'Arial Black', sans-serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    margin: 14px 0 0;
+}
+.t-body p { color: var(--ink-soft); max-width: 38rem; }
+
+/* Tri ân thầy cô cũ */
+.t-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3px;
+    background: var(--ink);
+    border: 3px solid var(--ink);
+    margin-top: 48px;
+}
+.t-cell { background: var(--paper); padding: 28px 20px; text-align: center; }
+.init {
+    width: 64px;
+    height: 64px;
+    display: grid;
+    place-items: center;
+    margin: 0 auto 14px;
+    background: var(--ink);
+    color: #fff;
+    font-family: 'Anton', 'Arial Black', sans-serif;
+    font-size: 1.7rem;
+    border: 3px solid var(--ink);
+}
+.t-cell:hover .init { background: var(--grass); }
+.t-cell h3 {
+    font-family: 'Anton', 'Arial Black', sans-serif;
+    font-size: 1.15rem;
+    text-transform: uppercase;
+    margin: 0;
+}
+.t-cell .tag { color: var(--ink-soft); margin-top: 6px; }
+
+/* ---------- Thành viên ---------- */
+.mem-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
+    gap: 3px;
+    background: var(--ink);
+    border: 3px solid var(--ink);
+}
+.mem { background: var(--paper); padding: 20px 12px; text-align: center; }
+.mem .init { width: 56px; height: 56px; font-size: 1.4rem; margin-bottom: 12px; }
+.mem:hover .init { background: var(--sun); color: var(--ink); }
+.mem h3 {
+    font-size: .85rem;
+    font-weight: 700;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.mem .tag { color: var(--ink-soft); font-size: .65rem; margin-top: 4px; }
+
+/* ---------- Trivia / CTA ---------- */
+.cta-box {
+    background: var(--sun);
+    border: 3px solid var(--ink);
+    box-shadow: var(--shadow-lg);
+    padding: 48px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+}
+.cta-box h2 {
+    font-family: 'Anton', 'Arial Black', sans-serif;
+    font-size: clamp(2rem, 5vw, 3.4rem);
+    text-transform: uppercase;
+    line-height: 1.3;
+    margin: 0;
+}
+
+/* ---------- Trang con: hero + bố cục ---------- */
+.sub-hero { padding: 72px 0 64px; border-bottom: 3px solid var(--ink); scroll-margin-top: 72px; }
+.section[id] { scroll-margin-top: 88px; }
+.sub-hero .wrap { text-align: center; }
+.sub-hero .crumb { display: inline-block; animation: hero-enter .7s var(--ease) both; }
+.sub-hero .tag { margin-left: auto !important; margin-right: auto; animation: hero-enter .7s .08s var(--ease) both; }
+.sub-hero h1 { animation: hero-enter .8s .16s var(--ease) both; }
+.sub-hero .lead { margin-left: auto; margin-right: auto; animation: hero-enter .8s .24s var(--ease) both; }
+.sub-hero .frame { margin-top: 48px; }
+.sub-hero .frame { animation: hero-enter .9s .32s var(--ease) both; }
+.sub-hero h1 {
+    font-family: 'Anton', 'Arial Black', sans-serif;
+    font-size: clamp(2.8rem, 8vw, 6.5rem);
+    line-height: 1.3;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    margin: 18px 0 0;
+}
+.crumb {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .78rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 3px solid var(--grass);
+}
+.crumb:hover { background: var(--sun); }
+
+@keyframes hero-enter {
+    from { opacity: 0; transform: translateY(24px) scale(.97); }
+    to   { opacity: 1; transform: none; }
+}
+
+.section-nav {
+    position: fixed;
+    z-index: 60;
+    top: 50%;
+    right: max(16px, calc((100vw - 1200px) / 2 - 52px));
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px;
+    border: 2px solid var(--ink);
+    background: rgba(255, 255, 255, .94);
+    box-shadow: var(--shadow-sm);
+    transform: translateY(-50%);
+}
+.section-nav a {
+    position: relative;
+    display: grid;
+    width: 16px;
+    height: 16px;
+    place-items: center;
+    border: 2px solid var(--ink);
+    border-radius: 50%;
+    background: var(--paper);
+}
+.section-nav a::before {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: transparent;
+    content: "";
+}
+.section-nav a:hover,
+.section-nav a:focus-visible,
+.section-nav a[aria-current="location"] { background: var(--grass); }
+.section-nav a[aria-current="location"]::before { background: #fff; }
+.section-nav a span {
+    position: absolute;
+    right: calc(100% + 12px);
+    padding: 7px 10px;
+    border: 2px solid var(--ink);
+    background: var(--paper);
+    box-shadow: var(--shadow-sm);
+    color: var(--ink);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .68rem;
+    font-weight: 700;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(6px);
+    transition: opacity .18s ease, transform .18s ease;
+}
+.section-nav a:hover span,
+.section-nav a:focus-visible span,
+.section-nav a[aria-current="location"] span { opacity: 1; transform: none; }
+
+.cols {
+    display: grid;
+    grid-template-columns: 7fr 5fr;
+    gap: 56px;
+    align-items: start;
+}
+.note-box {
+    border: 3px solid var(--ink);
+    box-shadow: var(--shadow);
+    background: var(--paper-2);
+    padding: 28px;
+}
+.note-box .row {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 12px 0;
+    border-bottom: 2px solid var(--ink);
+    font-size: .9rem;
+}
+.note-box .row:last-of-type { border-bottom: 0; }
+.note-box .row span:first-child {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    padding-top: .2em;
+}
+.note-box .row span:last-child { font-weight: 600; text-align: right; }
+
+.quote {
+    font-family: 'Anton', 'Arial Black', sans-serif;
+    font-size: clamp(1.4rem, 3vw, 2.2rem);
+    line-height: 1.3;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    border-left: 8px solid var(--grass);
+    padding-left: 24px;
+    max-width: 34rem;
+}
+
+/* Bảng 2 cột (timeline / modules) */
+.rows { border: 3px solid var(--ink); }
+.row-line {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 24px;
+    padding: 24px 28px;
+    border-bottom: 3px solid var(--ink);
+    background: var(--paper);
+}
+.row-line:last-child { border-bottom: 0; }
+.row-line .no {
+    font-family: 'Anton', 'Arial Black', sans-serif;
+    font-size: 1.6rem;
+    color: var(--grass);
+}
+.row-line h3 {
+    font-family: 'Anton', 'Arial Black', sans-serif;
+    font-size: 1.15rem;
+    text-transform: uppercase;
+    margin: 0 0 6px;
+}
+.row-line p { margin: 0; color: var(--ink-soft); font-size: .95rem; }
+
+.mods {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 3px;
+    background: var(--ink);
+    border: 3px solid var(--ink);
+}
+.mod { background: var(--paper); color: var(--ink); padding: 28px 24px; }
+.mod h3 {
+    font-family: 'Anton', 'Arial Black', sans-serif;
+    font-size: 1.3rem;
+    text-transform: uppercase;
+    margin: 14px 0 8px;
+}
+.mod p { margin: 0; color: var(--ink-soft); font-size: .93rem; }
+
+/* ---------- Footer ---------- */
+.footer {
+    background: var(--ink);
+    color: #fff;
+    padding: 64px 0 40px;
+}
+.footer .brand { color: #fff; font-size: 2.6rem; }
+.footer .brand b { color: var(--sun); }
+.footer-quote {
+    font-family: 'Anton', 'Arial Black', sans-serif;
+    font-size: clamp(1.2rem, 3vw, 2rem);
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, .7);
+    max-width: 40rem;
+    margin: 20px 0 0;
+}
+.footer-meta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255, 255, 255, .3);
+}
+.footer-meta a {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .78rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--sun);
+    text-decoration: none;
+}
+.footer-meta a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.footer-meta span {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .78rem;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, .45);
+}
+
+/* ---------- Scroll reveal ---------- */
+.reveal {
+    opacity: 0;
+    filter: blur(6px);
+    transform: translateY(32px) scale(.98);
+    transition: opacity .75s var(--ease), filter .75s var(--ease), transform .75s var(--ease);
+}
+.reveal.active { opacity: 1; filter: none; transform: none; }
+.mods.reveal > .mod {
+    opacity: 0;
+    transform: translateY(18px) scale(.98);
+    transition: opacity .55s var(--ease), transform .55s var(--ease);
+}
+.mods.reveal.active > .mod { opacity: 1; transform: none; }
+.mods.reveal.active > .mod:nth-child(2) { transition-delay: .08s; }
+.mods.reveal.active > .mod:nth-child(3) { transition-delay: .16s; }
+.mods.reveal.active > .mod:nth-child(4) { transition-delay: .24s; }
+
+.line-clamp-1 {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* ---------- Trivia quiz (giữ tên lớp cũ cho trivia.html) ---------- */
+.screen { animation: fade-up .45s var(--ease) both; }
+
+@keyframes fade-up {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: none; }
+}
+
+.option {
+    display: flex;
+    align-items: flex-start;
+    gap: .875rem;
+    width: 100%;
+    padding: .95rem 1.1rem;
+    border: 3px solid var(--ink);
+    background: #fff;
+    color: var(--ink);
+    font-size: .975rem;
+    line-height: 1.45;
+    text-align: left;
+    cursor: pointer;
+    font-family: inherit;
+    transition: transform .12s var(--ease), box-shadow .12s var(--ease);
+}
+.option:hover:not(:disabled) {
+    transform: translate(-2px, -2px);
+    box-shadow: var(--shadow-sm);
+}
+.option:focus-visible { outline: 3px solid var(--sky); outline-offset: 2px; }
+.option:disabled { cursor: default; }
+
+.option-key {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 1.6rem;
+    height: 1.6rem;
+    margin-top: .05rem;
+    border: 2px solid var(--ink);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .72rem;
+    font-weight: 700;
+    color: var(--ink);
+}
+
+.option[data-state="correct"] { border-color: var(--ok); background: var(--ok-bg); }
+.option[data-state="correct"] .option-key { border-color: var(--ok); color: var(--ok); }
+.option[data-state="wrong"]   { border-color: var(--bad); background: var(--bad-bg); }
+.option[data-state="wrong"] .option-key { border-color: var(--bad); color: var(--bad); }
+.option[data-state="muted"]   { opacity: .5; }
+
+.feedback-ok  { color: var(--ok); font-weight: 700; }
+.feedback-bad { color: var(--bad); font-weight: 700; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+    .cols { grid-template-columns: 1fr; gap: 40px; }
+    .act.w7, .act.w5 { grid-column: span 12; }
+    .ach { grid-template-columns: 64px 1fr; gap: 18px; }
+    .t-card { grid-template-columns: 1fr; }
+    .t-photo { border-right: 0; border-bottom: 3px solid var(--ink); min-height: 320px; }
+    .t-row { grid-template-columns: 1fr; }
+}
+@media (max-width: 720px) {
+    .nav-links { display: none; }
+    .section { padding: 64px 0; }
+    .hero { padding: 56px 0 64px; }
+    .row-line { grid-template-columns: 1fr; gap: 8px; }
+    .cta-box { padding: 32px 24px; }
+}
+@media (max-width: 1279px) {
+    .section-nav {
+        top: auto;
+        right: 50%;
+        bottom: max(12px, env(safe-area-inset-bottom));
+        flex-direction: row;
+        gap: 10px;
+        transform: translateX(50%);
+    }
+    .section-nav a span { display: none; }
+}
+
+/* ---------- Motion preferences ---------- */
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .reveal, .mods.reveal > .mod { opacity: 1; filter: none; transform: none; transition: none; }
+    .sub-hero .crumb, .sub-hero .tag, .sub-hero h1, .sub-hero .lead, .sub-hero .frame { animation: none; }
+    .screen { animation: none; }
+    .option { transition: none; }
+    .ticker-track { animation: none; }
+    .act img { transition: none; }
+    .btn, .act, .option { transition: none; }
+}
+
+/* Ảnh thầy cô trong ô tribute — chữ cái là fallback nếu ảnh lỗi */
+.init { position: relative; overflow: hidden; }
+.init img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }

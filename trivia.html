@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trivia 12A1 — FPT Schools Tây Hà Nội</title>
+    <meta name="description" content="Trắc nghiệm nhanh: bạn hiểu bao nhiêu về tập thể lớp 12A1, FPT Schools Tây Hà Nội?">
+    <meta name="theme-color" content="#10243D">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="styles.css">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Be Vietnam Pro"', 'system-ui', 'sans-serif'],
+                        display: ['Lora', 'Georgia', 'serif'],
+                    },
+                    colors: {
+                        ink: '#10243D',
+                        'ink-soft': '#465C77',
+                        navy: '#16324F',
+                        accent: '#C2410C',
+                        paper: { DEFAULT: '#FBFAF7', 2: '#F4F1EA' },
+                        rule: '#E2DCD2',
+                    },
+                },
+            },
+        };
+    </script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="font-sans antialiased text-ink bg-paper min-h-screen flex flex-col selection:bg-accent selection:text-white">
+
+    <!-- ========================================== -->
+    <!-- HEADER -->
+    <!-- ========================================== -->
+    <header class="sticky top-0 z-40 bg-paper/90 backdrop-blur border-b border-rule">
+        <div class="max-w-3xl mx-auto px-6 h-16 flex items-center justify-between gap-6">
+            <a href="12A1.html" class="inline-flex items-center gap-2 eyebrow text-ink-soft hover:text-accent transition-colors">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                Trang lớp
+            </a>
+            <span class="font-display text-lg font-semibold">12A1<span class="text-accent">.</span></span>
+        </div>
+    </header>
+
+    <main class="flex-1">
+        <div class="max-w-3xl mx-auto px-6 py-14 md:py-20 w-full">
+
+            <!-- ========================================== -->
+            <!-- MÀN 1 — GIỚI THIỆU -->
+            <!-- ========================================== -->
+            <section id="screen-intro" class="screen">
+                <p class="eyebrow text-accent">Trắc nghiệm</p>
+                <h1 class="font-display text-4xl md:text-5xl font-semibold mt-3">Bạn hiểu 12A1 đến đâu?</h1>
+                <div class="rule max-w-xs mt-6"></div>
+                <p class="mt-6 text-lg text-ink-soft leading-relaxed">
+                    12 câu hỏi về tập thể, thành tích và những dấu mốc của lớp 12A1 — FPT Schools Tây Hà Nội.
+                </p>
+
+                <dl class="mt-10 border-t border-rule">
+                    <div class="flex items-baseline justify-between gap-6 py-4 border-b border-rule">
+                        <dt class="eyebrow text-ink-soft">Số câu hỏi</dt>
+                        <dd class="font-display text-xl">12</dd>
+                    </div>
+                    <div class="flex items-baseline justify-between gap-6 py-4 border-b border-rule">
+                        <dt class="eyebrow text-ink-soft">Hình thức</dt>
+                        <dd class="font-display text-xl">Trắc nghiệm · 4 lựa chọn</dd>
+                    </div>
+                    <div class="flex items-baseline justify-between gap-6 py-4 border-b border-rule">
+                        <dt class="eyebrow text-ink-soft">Thời gian</dt>
+                        <dd class="font-display text-xl">Khoảng 3 phút</dd>
+                    </div>
+                </dl>
+
+                <p id="best-score" class="mt-5 text-sm text-ink-soft" hidden></p>
+
+                <div class="mt-9 flex flex-wrap items-center gap-3">
+                    <button id="start-btn" type="button" class="btn btn-primary">
+                        Bắt đầu
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </button>
+                    <span class="text-sm text-ink-soft">hoặc nhấn phím <kbd class="eyebrow">Enter</kbd></span>
+                </div>
+            </section>
+
+            <!-- ========================================== -->
+            <!-- MÀN 2 — CÂU HỎI -->
+            <!-- ========================================== -->
+            <section id="screen-quiz" hidden>
+                <div class="flex items-center justify-between gap-6">
+                    <span id="progress-label" class="eyebrow text-ink-soft">Câu 1 / 12</span>
+                    <span id="score-label" class="eyebrow text-ink-soft">Đúng 0</span>
+                </div>
+
+                <div class="mt-3 h-[3px] bg-rule overflow-hidden rounded-full">
+                    <div id="progress-bar" class="h-full bg-accent transition-all duration-300" style="width: 0%"></div>
+                </div>
+
+                <h2 id="question-text" tabindex="-1" class="font-display text-2xl md:text-3xl font-medium mt-10 leading-snug outline-none"></h2>
+
+                <div id="options" class="mt-8 space-y-3" role="group" aria-labelledby="question-text"></div>
+
+                <p id="feedback" class="mt-6 min-h-[3.5rem] text-sm leading-relaxed text-ink-soft" aria-live="polite"></p>
+
+                <button id="next-btn" type="button" class="btn btn-primary mt-2" hidden>Câu tiếp theo</button>
+            </section>
+
+            <!-- ========================================== -->
+            <!-- MÀN 3 — KẾT QUẢ -->
+            <!-- ========================================== -->
+            <section id="screen-result" hidden>
+                <p class="eyebrow text-accent">Kết quả</p>
+                <h2 id="result-score" class="font-display text-5xl md:text-6xl font-semibold mt-3">0/12</h2>
+                <div class="rule max-w-xs mt-6"></div>
+                <p id="result-message" class="mt-6 text-lg text-ink-soft leading-relaxed"></p>
+                <p id="result-best" class="mt-2 text-sm text-accent" hidden></p>
+
+                <div class="mt-9 flex flex-wrap gap-3">
+                    <button id="restart-btn" type="button" class="btn btn-primary">
+                        <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+                        Chơi lại
+                    </button>
+                    <a href="12A1.html" class="btn btn-quiet">Về trang lớp</a>
+                </div>
+
+                <h3 class="eyebrow text-ink-soft mt-16">Xem lại đáp án</h3>
+                <ol id="review" class="mt-5 border-t border-rule"></ol>
+            </section>
+
+        </div>
+    </main>
+
+    <footer class="border-t border-rule py-8">
+        <div class="max-w-3xl mx-auto px-6">
+            <span class="eyebrow text-ink-soft/70">12A1 · FPT Schools Tây Hà Nội · 2026 – 2027</span>
+        </div>
+    </footer>
+
+    <!-- ========================================== -->
+    <!-- JAVASCRIPT LOGIC -->
+    <!-- ========================================== -->
+    <script>
+        /* ------------------------------------------------------------
+           NGÂN HÀNG CÂU HỎI
+           Các câu hỏi dưới đây lấy từ nội dung đang có trên 12A1.html.
+           Thay / thêm câu hỏi thật của lớp tại đây — chỉ cần giữ đúng
+           cấu trúc: options là mảng chuỗi, answer là CHỈ SỐ đáp án đúng
+           trong mảng options.
+           ------------------------------------------------------------ */
+        const QUESTIONS = [
+            {
+                q: "Lớp 12A1 thuộc trường nào?",
+                options: ["FPT Schools Tây Hà Nội", "THPT Tây Hà Nội", "FPT Schools Hoà Lạc", "THCS – THPT Nguyễn Tất Thành"],
+                answer: 0,
+                note: "Tập thể 12A1 là lớp của FPT Schools Tây Hà Nội."
+            },
+            {
+                q: "Năm học được ghi trên trang của 12A1 là năm nào?",
+                options: ["2026 – 2027", "2025 – 2026", "2027 – 2028", "2024 – 2025"],
+                answer: 0,
+                note: "Trang giới thiệu lớp ghi năm học 2026 – 2027."
+            },
+            {
+                q: "Đâu là slogan của lớp 12A1?",
+                options: ["One class. One journey. Countless memories.", "Together we rise", "One team, one dream", "Học để làm người"],
+                answer: 0,
+                note: "Slogan xuất hiện ở cuối trang chủ 12A1."
+            },
+            {
+                q: "Tập thể 12A1 gồm bao nhiêu thành viên?",
+                options: ["30", "25", "32", "35"],
+                answer: 0,
+                note: "Danh sách thành viên trên trang có 30 bạn."
+            },
+            {
+                q: "Tổ hợp Khối A gồm ba môn nào?",
+                options: ["Toán – Vật Lý – Hóa Học", "Toán – Ngữ Văn – Tiếng Anh", "Toán – Vật Lý – Tiếng Anh", "Toán – Hóa Học – Sinh Học"],
+                answer: 0,
+                note: "12A1 dẫn đầu trường ở tổ hợp Toán – Vật Lý – Hóa Học."
+            },
+            {
+                q: "12A1 đạt vị trí nào ở Khối A toàn trường?",
+                options: ["Top 1", "Top 3", "Top 5", "Top 10"],
+                answer: 0,
+                note: "Trang thành tích ghi 12A1 đứng Top 1 Khối A toàn trường (xét về hoạt động của lớp và thành tích học tập chung/các cá nhân)"
+            },
+            {
+                q: "Dự án STEM/AI của 12A1 hướng tới vấn đề gì?",
+                options: ["Môi trường học đường", "Giao thông đô thị", "Nông nghiệp thông minh", "Y tế cộng đồng"],
+                answer: 0,
+                note: "Dự án ứng dụng AI để giải quyết vấn đề môi trường học đường."
+            },
+            {
+                q: "Học sinh lớp 12A1 từng đạt giải ở các cuộc thi nào?",
+                options: ["Tất cả các đáp án trên", "STEMPETITION", "Cuộc thi khởi nghiệp dành cho học sinh sinh viên", "Khoa học kĩ thuật cấp cụm"],
+                answer: 0,
+                note: "Tất cả các đáp án trên đều là các cuộc thi mà học sinh 12A1 từng đạt giải."
+            },
+            {
+                q: "Môn thể thao nào 12A1 giành chức vô địch?",
+                options: ["Cầu lông", "Bóng đá", "Bóng rổ", "Bơi lội"],
+                answer: 0,
+                note: "12A1 vô địch môn Cầu lông ở BATULI LEAGUE 2024"
+            },
+            {
+                q: "Tỉ lệ học sinh 12A1 đạt hạnh kiểm Tốt là bao nhiêu?",
+                options: ["100%", "95%", "90%", "80%"],
+                answer: 0,
+                note: "Cả lớp đạt hạnh kiểm Tốt, tỉ lệ 100%."
+            },
+            {
+                q: "Sự kiện nào được nhắc là khởi đầu năm học mới của 12A1?",
+                options: ["Lễ Khai Giảng", "Lễ Tốt Nghiệp", "Ngày hội STEM", "Hội khỏe Phù Đổng"],
+                answer: 0,
+                note: "Lễ Khai Giảng 2026 – 2027 mở đầu năm học của tập thể."
+            },
+            {
+                q: "Hoạt động thiện nguyện nổi bật của 12A1 diễn ra vào năm nào?",
+                options: ["2026", "2023", "2024", "2025"],
+                answer: 0,
+                note: "Dự án WHY NOT NOW của tập thể 12A1."
+            }
+        ];
+
+        const BEST_KEY = '12a1-trivia-best';
+        const el = id => document.getElementById(id);
+
+        const screens = {
+            intro: el('screen-intro'),
+            quiz: el('screen-quiz'),
+            result: el('screen-result')
+        };
+
+        let deck = [];
+        let index = 0;
+        let score = 0;
+        let log = [];
+
+        /* ---------- Helpers ---------- */
+
+        function shuffle(list) {
+            const out = list.slice();
+            for (let i = out.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [out[i], out[j]] = [out[j], out[i]];
+            }
+            return out;
+        }
+
+        function show(name) {
+            Object.values(screens).forEach(s => { s.hidden = true; });
+            const target = screens[name];
+            target.hidden = false;
+            target.classList.remove('screen');
+            void target.offsetWidth; // khởi động lại animation
+            target.classList.add('screen');
+            window.scrollTo(0, 0);
+        }
+
+        function readBest() {
+            try { return Number(localStorage.getItem(BEST_KEY)); }
+            catch { return NaN; }
+        }
+
+        function saveBest(value) {
+            try { localStorage.setItem(BEST_KEY, String(value)); }
+            catch { /* chế độ riêng tư — bỏ qua */ }
+        }
+
+        /* ---------- Luồng chơi ---------- */
+
+        function start() {
+            deck = shuffle(QUESTIONS).map(item => ({
+                q: item.q,
+                note: item.note,
+                options: shuffle(item.options.map((text, i) => ({ text, correct: i === item.answer })))
+            }));
+
+            index = 0;
+            score = 0;
+            log = [];
+
+            show('quiz');
+            renderQuestion();
+        }
+
+        function renderQuestion() {
+            const item = deck[index];
+
+            el('progress-label').textContent = `Câu ${index + 1} / ${deck.length}`;
+            el('score-label').textContent = `Đúng ${score}`;
+            el('progress-bar').style.width = `${(index / deck.length) * 100}%`;
+            el('question-text').textContent = item.q;
+
+            const feedback = el('feedback');
+            feedback.textContent = '';
+            feedback.className = 'mt-6 min-h-[3.5rem] text-sm leading-relaxed text-ink-soft';
+
+            const nextBtn = el('next-btn');
+            nextBtn.hidden = true;
+            nextBtn.textContent = index === deck.length - 1 ? 'Xem kết quả' : 'Câu tiếp theo';
+
+            const box = el('options');
+            box.replaceChildren(...item.options.map((option, i) => {
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.className = 'option';
+                button.innerHTML = `<span class="option-key">${i + 1}</span><span>${option.text}</span>`;
+                button.addEventListener('click', () => choose(i));
+                return button;
+            }));
+
+            el('question-text').focus();
+        }
+
+        function choose(picked) {
+            const item = deck[index];
+            const buttons = [...el('options').children];
+            if (buttons.length === 0 || buttons[0].disabled) return;
+
+            const correctIndex = item.options.findIndex(o => o.correct);
+            const isRight = picked === correctIndex;
+            if (isRight) score += 1;
+
+            buttons.forEach((button, i) => {
+                button.disabled = true;
+                if (i === correctIndex) button.dataset.state = 'correct';
+                else if (i === picked) button.dataset.state = 'wrong';
+                else button.dataset.state = 'muted';
+            });
+
+            log.push({
+                q: item.q,
+                picked: item.options[picked].text,
+                correct: item.options[correctIndex].text,
+                right: isRight
+            });
+
+            el('score-label').textContent = `Đúng ${score}`;
+            el('progress-bar').style.width = `${((index + 1) / deck.length) * 100}%`;
+
+            const feedback = el('feedback');
+            feedback.className = `mt-6 min-h-[3.5rem] text-sm leading-relaxed ${isRight ? 'feedback-ok' : 'feedback-bad'}`;
+            feedback.textContent = isRight
+                ? `Chính xác. ${item.note}`
+                : `Chưa đúng — đáp án là “${item.options[correctIndex].text}”. ${item.note}`;
+
+            const nextBtn = el('next-btn');
+            nextBtn.hidden = false;
+            nextBtn.focus();
+        }
+
+        function next() {
+            if (index < deck.length - 1) {
+                index += 1;
+                renderQuestion();
+            } else {
+                finish();
+            }
+        }
+
+        function finish() {
+            show('result');
+
+            const total = deck.length;
+            el('result-score').textContent = `${score}/${total}`;
+
+            const ratio = score / total;
+            let message;
+            if (ratio === 1) message = 'Hoàn hảo. Bạn chắc chắn là một phần của 12A1.';
+            else if (ratio >= 0.8) message = 'Xuất sắc. Bạn hiểu 12A1 rất rõ.';
+            else if (ratio >= 0.5) message = 'Khá tốt. Vẫn còn vài dấu mốc của lớp để bạn khám phá.';
+            else message = 'Hãy dành thêm chút thời gian tìm hiểu về 12A1 nhé.';
+            el('result-message').textContent = message;
+
+            const bestLine = el('result-best');
+            const previousBest = readBest();
+            if (Number.isNaN(previousBest) || score > previousBest) {
+                saveBest(score);
+                bestLine.textContent = 'Điểm cao nhất mới của bạn.';
+                bestLine.hidden = false;
+            } else {
+                bestLine.hidden = true;
+            }
+
+            renderReview();
+        }
+
+        function renderReview() {
+            el('review').replaceChildren(...log.map(entry => {
+                const row = document.createElement('li');
+                row.className = 'py-5 border-b border-rule';
+
+                const question = document.createElement('p');
+                question.className = 'font-medium leading-snug';
+                question.textContent = entry.q;
+
+                const answer = document.createElement('p');
+                answer.className = `mt-2 text-sm ${entry.right ? 'feedback-ok' : 'feedback-bad'}`;
+                answer.textContent = entry.right
+                    ? `Bạn chọn: ${entry.picked} · Đúng`
+                    : `Bạn chọn: ${entry.picked} · Đáp án: ${entry.correct}`;
+
+                row.append(question, answer);
+                return row;
+            }));
+        }
+
+        /* ---------- Sự kiện ---------- */
+
+        el('start-btn').addEventListener('click', start);
+        el('next-btn').addEventListener('click', next);
+        el('restart-btn').addEventListener('click', start);
+
+        document.addEventListener('keydown', event => {
+            if (!screens.quiz.hidden) {
+                if (event.key >= '1' && event.key <= '4') {
+                    const option = el('options').children[Number(event.key) - 1];
+                    if (option && !option.disabled) {
+                        event.preventDefault();
+                        choose(Number(event.key) - 1);
+                    }
+                } else if (event.key === 'Enter' && !el('next-btn').hidden) {
+                    // Nút đang được focus sẽ tự xử lý Enter — tránh nhảy hai câu
+                    if (document.activeElement !== el('next-btn')) {
+                        event.preventDefault();
+                        next();
+                    }
+                }
+                return;
+            }
+
+            if (!screens.intro.hidden && event.key === 'Enter' && document.activeElement !== el('start-btn')) {
+                event.preventDefault();
+                start();
+            }
+        });
+
+        /* ---------- Khởi tạo ---------- */
+
+        lucide.createIcons();
+
+        const storedBest = readBest();
+        if (!Number.isNaN(storedBest)) {
+            const line = el('best-score');
+            line.textContent = `Điểm cao nhất của bạn trên thiết bị này: ${storedBest}/${QUESTIONS.length}.`;
+            line.hidden = false;
+        }
+    </script>
+</body>
+</html>
